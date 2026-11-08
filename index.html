@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>وضّحلي</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08070d;--panel:#14111d;--line:#2a2438;--text:#f4f1fa;--muted:#a59db8;
+  --violet:#8b5cf6;--orange:#ff6a2b;--amber:#f5b14a;--red:#ff5a5f;--green:#3ddc97;
+  --paper:#f6f2ea;--ink:#1b1826;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f4f1fa;--panel:#fff;--line:#ddd6ea;--text:#1b1826;--muted:#645c78;--paper:#fffdf8;}
+}
+:root[data-theme="dark"]{--bg:#08070d;--panel:#14111d;--line:#2a2438;--text:#f4f1fa;--muted:#a59db8;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;padding:20px 18px 60px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.logo{font-weight:700;font-size:22px;letter-spacing:0}
+.logo i{font-style:normal;color:var(--orange)}
+.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+h1{font-size:30px;line-height:1.35;margin:6px 0 8px;font-weight:700}
+h1 span{background:linear-gradient(90deg,var(--violet),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+p.lead{color:var(--muted);margin:0 0 22px}
+.drop{display:block;border:1.5px dashed var(--violet);border-radius:22px;padding:26px 18px;text-align:center;cursor:pointer;background:linear-gradient(160deg,rgba(139,92,246,.14),rgba(255,106,43,.08))}
+.drop b{display:block;font-size:18px;margin-top:6px}
+.drop small{color:var(--muted)}
+.drop input{display:none}
+.or{text-align:center;color:var(--muted);margin:20px 0 12px;font-size:14px}
+.samples{display:flex;flex-direction:column;gap:10px}
+.sample{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer}
+.sample:focus-visible,.btn:focus-visible,.drop:focus-within{outline:2px solid var(--amber);outline-offset:2px}
+.sample .ic{font-size:26px}
+.sample strong{display:block;font-size:16px}
+.sample span{font-size:13px;color:var(--muted)}
+.hidden{display:none!important}
+
+/* scanning */
+.scan{display:flex;flex-direction:column;align-items:center;gap:22px;padding-top:10px}
+.sheet{position:relative;width:230px;height:300px;background:var(--paper);border-radius:10px;padding:22px 18px;overflow:hidden;box-shadow:0 20px 60px rgba(139,92,246,.35)}
+.sheet i{display:block;height:8px;border-radius:4px;background:#d9d2c3;margin-bottom:12px}
+.sheet i:nth-child(3n){width:70%}.sheet i:nth-child(4n){width:85%}
+.beam{position:absolute;inset-inline:0;height:70px;top:-70px;background:linear-gradient(180deg,transparent,rgba(255,106,43,.55),transparent);animation:sweep 1.6s ease-in-out infinite}
+@keyframes sweep{to{top:300px}}
+.steps{list-style:none;padding:0;margin:0;width:100%;display:flex;flex-direction:column;gap:8px}
+.steps li{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:15px;transition:color .3s}
+.steps li::before{content:"○";color:var(--line)}
+.steps li.on{color:var(--text)}
+.steps li.on::before{content:"✓";color:var(--green)}
+
+/* result */
+.top{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.top .ic{font-size:34px}
+.top h2{margin:0;font-size:22px}
+.top small{color:var(--muted)}
+.what{font-size:18px;line-height:1.8;margin:0 0 18px}
+.deadline{display:flex;align-items:center;gap:14px;border-radius:20px;padding:16px 18px;margin-bottom:18px;background:linear-gradient(120deg,var(--violet),var(--orange));color:#fff}
+.deadline .n{font-size:44px;font-weight:700;line-height:1}
+.deadline div:last-child{font-size:15px}
+.sec{margin-bottom:22px}
+.sec h3{font-size:16px;margin:0 0 10px;color:var(--amber)}
+.todo{list-style:none;margin:0;padding:0;counter-reset:s}
+.todo li{counter-increment:s;display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.todo li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+.risk{border-inline-start:4px solid var(--amber);background:var(--panel);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.risk.high{border-color:var(--red)}
+.risk b{display:block;font-size:13px;margin-bottom:2px;color:var(--amber)}
+.risk.high b{color:var(--red)}
+.reply{background:var(--paper);color:var(--ink);border-radius:16px;padding:16px;white-space:pre-line;font-size:15px;line-height:1.9}
+.row{display:flex;gap:10px;margin-top:12px}
+.btn{all:unset;box-sizing:border-box;flex:1;text-align:center;padding:13px 10px;border-radius:14px;font-weight:700;cursor:pointer;font-size:15px}
+.btn.main{background:linear-gradient(90deg,var(--violet),var(--orange));color:#fff}
+.btn.ghost{border:1px solid var(--line);background:var(--panel);color:var(--text)}
+.btn.done{background:var(--green);color:#06210f;border-color:var(--green)}
+.back{all:unset;cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:14px;display:inline-block}
+.note{font-size:12px;color:var(--muted);text-align:center;margin-top:28px}
+@media (prefers-reduced-motion:reduce){.beam{animation:none;top:110px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header><div class="logo">وضّحلي<i>.</i></div><span class="tag">نسخة تجريبية</span></header>
+
+  <section id="home">
+    <h1>جاك ورقة ما فهمتيها؟ <span>صوّريها.</span></h1>
+    <p class="lead">أشرحها لك بكلام بسيط، وأقولك وش المطلوب، وأجهّز لك الرد.</p>
+    <label class="drop">
+      <input id="file" type="file" accept="image/*,application/pdf">
+      <div style="font-size:34px">📷</div>
+      <b>صوّري الورقة أو ارفعيها</b>
+      <small>عقد، خطاب، مخالفة، عرض وظيفي</small>
+    </label>
+    <div class="or">أو جرّبي مستند جاهز</div>
+    <div class="samples" id="samples"></div>
+  </section>
+
+  <section id="scan" class="scan hidden">
+    <div class="sheet"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><div class="beam"></div></div>
+    <ul class="steps" id="steps"></ul>
+  </section>
+
+  <section id="result" class="hidden"></section>
+
+  <p class="note">النتائج في هذا النموذج مكتوبة مسبقًا للعرض. الذكاء الاصطناعي الحقيقي يُربط في اليوم الأول من البناء.</p>
+</div>
+
+<script>
+const DOCS = [
+{
+  id:"rent", ic:"🏠", name:"عقد سكن طالبات", sub:"إيجار سنوي مع بنود تجديد",
+  type:"عقد إيجار سكن", days:14, deadlineLabel:"آخر موعد لإشعار عدم التجديد",
+  what:"هذا عقد سكن لمدة سنة. ينتهي في 30 يناير، ويتجدد تلقائيًا إذا ما أبلغتي الإدارة قبل الموعد.",
+  todo:["اقرئي بند التجديد (المادة 7) وقرّري: تبين تجددين أو لا","إذا ما تبين، أرسلي إشعار كتابي لإدارة السكن","اطلبي إيصال استلام للإشعار واحتفظي فيه","سلّمي الغرفة وسجّلي حالتها بالصور قبل الخروج"],
+  risks:[
+    {h:true,t:"رفع السعر بدون إشعار",d:"البند 5 يسمح للإدارة بزيادة الإيجار في أي وقت. اطلبي تعديله إلى إشعار قبل 60 يومًا."},
+    {h:true,t:"التجديد التلقائي",d:"لو فاتك الموعد يلزمك العقد سنة ثانية كاملة."},
+    {h:false,t:"خصم التأمين",d:"البند 9 ما يحدد أسباب الخصم من مبلغ التأمين."}
+  ],
+  reply:"السلام عليكم،\nأنا الطالبة [الاسم]، غرفة رقم [الرقم].\nأرجو تعديل البند (5) ليصبح أي زيادة في الإيجار بإشعار كتابي قبل 60 يومًا على الأقل.\nكما أرجو توضيح حالات خصم مبلغ التأمين المذكورة في البند (9).\nشاكرة تعاونكم."
+},
+{
+  id:"coop", ic:"💼", name:"عرض تدريب تعاوني", sub:"خطاب قبول من شركة",
+  type:"خطاب قبول تدريب", days:5, deadlineLabel:"المهلة للرد على العرض",
+  what:"الشركة قبلتك متدربة لمدة 6 أشهر ببدل شهري 3,000 ريال، وتبي ردك وتوقيعك قبل الموعد.",
+  todo:["تأكدي من موافقة منسق التدريب في كليتك","راجعي بند السرية ومدة العقد","وقّعي وأرسلي العقد بالإيميل المذكور","اسألي عن موعد أول يوم والزي الرسمي"],
+  risks:[
+    {h:true,t:"بند عدم المنافسة",d:"يمنعك من العمل في شركات مشابهة سنتين بعد التدريب، وهذا طويل على متدربة."},
+    {h:false,t:"بدل المواصلات غير مذكور",d:"اسألي إذا فيه تعويض، لأن العرض ما أشار له."}
+  ],
+  reply:"السلام عليكم،\nشكرًا على قبولي في برنامج التدريب، وأنا سعيدة بالانضمام لكم.\nقبل التوقيع أرجو توضيح مدة بند عدم المنافسة وإمكانية تقليصها، وهل يوجد بدل مواصلات.\nأؤكد التزامي بموعد البدء.\nمع التقدير، [الاسم]"
+},
+{
+  id:"fine", ic:"🚗", name:"مخالفة مرورية", sub:"رسالة من خدمة المرور",
+  type:"إشعار مخالفة مرورية", days:30, deadlineLabel:"مهلة الاعتراض",
+  what:"سُجّلت عليك مخالفة تجاوز سرعة بمبلغ 500 ريال. تقدرين تدفعينها أو تعترضين خلال المهلة.",
+  todo:["افتحي منصة أبشر وتأكدي من تفاصيل المخالفة","قارني الموقع والوقت بتنقلاتك","إذا فيه خطأ، قدّمي اعتراض مع المرفقات","إذا صحيحة، ادفعي قبل ما تزيد الغرامة"],
+  risks:[
+    {h:true,t:"الغرامة تتضاعف عند التأخر",d:"بعد انتهاء المهلة قد تُضاف رسوم تأخير."},
+    {h:false,t:"الاعتراض بدون دليل غالبًا يُرفض",d:"جهّزي صورة أو إثبات يوضح الخطأ."}
+  ],
+  reply:"السلام عليكم،\nأرغب في الاعتراض على المخالفة رقم [الرقم] بتاريخ [التاريخ].\nالسبب: [اكتبي السبب]، وأرفقت ما يثبت ذلك.\nأرجو مراجعتها. شاكرة."
+}
+];
+const $ = id => document.getElementById(id);
+const show = id => ["home","scan","result"].forEach(s => $(s).classList.toggle("hidden", s !== id));
+
+$("samples").innerHTML = DOCS.map(d =>
+  `<button class="sample" data-id="${d.id}"><span class="ic">${d.ic}</span><div><strong>${d.name}</strong><span>${d.sub}</span></div></button>`).join("");
+$("samples").addEventListener("click", e => { const b = e.target.closest(".sample"); if (b) analyze(DOCS.find(d => d.id === b.dataset.id)); });
+$("file").addEventListener("change", () => { if ($("file").files.length) analyze(DOCS[0]); });
+
+const STEPS = ["أقرأ الورقة","أستخرج التواريخ والمبالغ","أدوّر على البنود اللي تضرك","أجهّز لك الرد"];
+function analyze(doc){
+  show("scan");
+  $("steps").innerHTML = STEPS.map(s => `<li>${s}</li>`).join("");
+  const items = $("steps").children;
+  [...items].forEach((li,i) => setTimeout(() => li.classList.add("on"), 500 + i*650));
+  setTimeout(() => render(doc), 500 + STEPS.length*650 + 250);
+}
+
+function render(d){
+  const risks = d.risks.map(r => `<div class="risk ${r.h?"high":""}"><b>${r.h?"خطر":"انتبهي"}: ${r.t}</b>${r.d}</div>`).join("");
+  $("result").innerHTML = `
+    <button class="back" id="back">رجوع</button>
+    <div class="top"><span class="ic">${d.ic}</span><div><h2>${d.type}</h2><small>تم التحليل قبل ثواني</small></div></div>
+    <p class="what">${d.what}</p>
+    <div class="deadline"><div class="n">${d.days}</div><div>يوم<br>${d.deadlineLabel}</div></div>
+    <div class="sec"><h3>وش المطلوب منك</h3><ol class="todo">${d.todo.map(t=>`<li>${t}</li>`).join("")}</ol></div>
+    <div class="sec"><h3>اللي ممكن يضرك</h3>${risks}</div>
+    <div class="sec"><h3>الرد الجاهز</h3><div class="reply" id="reply">${d.reply}</div>
+      <div class="row"><button class="btn main" id="copy">نسخ الرد</button><button class="btn ghost" id="remind">ذكّرني قبل المهلة</button></div></div>`;
+  show("result"); window.scrollTo(0,0);
+  $("back").onclick = () => { $("file").value=""; show("home"); };
+  $("copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(d.reply); } catch(e) {}
+    $("copy").textContent = "تم النسخ ✓";
+    setTimeout(() => $("copy").textContent = "نسخ الرد", 1800);
+  };
+  $("remind").onclick = () => {
+    const b = $("remind");
+    const on = b.classList.toggle("done");
+    b.textContent = on ? `تذكير قبل ${Math.max(1,Math.floor(d.days/3))} أيام ✓` : "ذكّرني قبل المهلة";
+  };
+}
+</script>
+</body>
+</html>
